@@ -15,6 +15,25 @@ def logger(path):
             return result
         return new_function
     return __logger
+@logger('log_1.log')
+def flat_generator(nnested_list):
+    stack = nnested_list[::-1]
+    while stack:
+        current = stack.pop()
+        if isinstance(current, list):
+            stack.extend(current[::-1])
+        else:
+            yield current
+
+if __name__ == '__main__':
+    nested_list = [
+        [['а', ['б', 'в']], 'г', 'д'],
+        ['a', 'b', 'c'],
+        ['d', 'e', 'f'],
+        [1, 2, None],
+    ]
+    flat_generator(nested_list)
+
 
 def test_2():
     paths = ('log_1.log', 'log_2.log', 'log_3.log')
@@ -55,5 +74,5 @@ def test_2():
         for item in (4.3, 2.2, 6.5):
             assert str(item) in log_file_content, f'{item} должен быть записан в файл'
 
-if __name__ == '__main__':
-    test_2()
+# if __name__ == '__main__':
+#     test_2()
